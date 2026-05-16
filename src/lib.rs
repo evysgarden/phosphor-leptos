@@ -108,16 +108,24 @@ pub fn Icon(
     #[doc = r" icon orientation is not appropriate."]
     # [prop (into , default = Signal :: stored (false))]
     mirrored: Signal<bool>,
+    #[doc = r"Change display mode to inlined."]
+    #[doc = r""]
+    #[doc = r"This can be useful when using icons inside a span"]
+    #[doc = r"to prevent it to be placed in a new line."]
+    # [prop (into , default = Signal :: stored (false))]
+    inlined: Signal<bool>,
 ) -> impl IntoView {
     let html = move || icon.get(weight.get());
     let transform = move || mirrored.get().then_some("scale(-1, 1)");
     let height = size.clone();
+    let style = move || inlined.get().then_some("display: inline;");
     view! {
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width=move || size.get()
             height=move || height.get()
             fill=move || color.get()
+            style=style
             transform=transform
             viewBox="0 0 256 256"
             inner_html=html
